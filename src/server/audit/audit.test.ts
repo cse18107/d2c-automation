@@ -1,6 +1,6 @@
 import { v7 } from "uuid";
 import { describe, expect, it, vi } from "vitest";
-import { ValidationError } from "./errors";
+import { ValidationError } from "@/server/errors";
 import { recordAuditEvent } from "./index";
 
 function fakeDb() {

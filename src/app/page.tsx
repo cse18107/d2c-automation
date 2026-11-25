@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -55,7 +56,9 @@ export default function Home() {
       </Card>
 
       <div className="flex gap-3">
-        <Button>New product</Button>
+        <Button asChild>
+          <Link href="/products/new">New product</Link>
+        </Button>
         <Button variant="outline" asChild>
           <a href="/api/health">API health check</a>
         </Button>

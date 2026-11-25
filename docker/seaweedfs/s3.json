@@ -1,0 +1,11 @@
+{
+  "identities": [
+    {
+      "name": "d2c-local",
+      "credentials": [
+        { "accessKey": "d2c_minio", "secretKey": "d2c_minio_local_only" }
+      ],
+      "actions": ["Admin", "Read", "Write", "List", "Tagging"]
+    }
+  ]
+}

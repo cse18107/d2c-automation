@@ -2,6 +2,9 @@ import { z } from "zod";
 import { idSchema, isoDateTimeSchema, orgScopedSchema } from "./common";
 
 export const ASSET_KINDS = ["image", "document"] as const;
+export const DOCX_MIME =
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
 export const assetKindSchema = z.enum(ASSET_KINDS);
 export type AssetKind = z.infer<typeof assetKindSchema>;
 

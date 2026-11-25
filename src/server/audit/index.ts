@@ -2,7 +2,7 @@ import "server-only";
 import { type AuditEventInput, auditEventInputSchema } from "@/schemas/audit";
 import type { Db } from "@/server/db";
 import { auditEvents } from "@/server/db/schema";
-import { ValidationError } from "./errors";
+import { ValidationError } from "@/server/errors";
 
 // Keys that must never reach the audit log (CLAUDE.md §7.8, §12). Matched
 // case-insensitively against every metadata key, at the top level.
@@ -17,7 +17,7 @@ export async function recordAuditEvent(
 ): Promise<void> {
   const parsed = auditEventInputSchema.safeParse(input);
   if (!parsed.success) {
-    throw new ValidationError("Invalid audit event", parsed.error.issues);
+    throw new ValidationError("Invalid audit event");
   }
   const event: AuditEventInput = parsed.data;
 

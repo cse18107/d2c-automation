@@ -1,4 +1,11 @@
-import { index, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import {
+  index,
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+} from "drizzle-orm/pg-core";
 import { PRODUCT_STATUSES } from "../../../schemas/product";
 import { idColumn, orgIdColumn, timestamps } from "./columns";
 
@@ -9,7 +16,7 @@ export const products = pgTable(
   {
     id: idColumn(),
     orgId: orgIdColumn(),
-    brandId: orgIdColumn().$type<string>(),
+    brandId: uuid("brand_id").notNull(),
     name: text("name").notNull(),
     status: productStatusEnum("status").notNull().default("draft"),
     ingestedAt: timestamp("ingested_at", {

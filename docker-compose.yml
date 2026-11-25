@@ -1,5 +1,7 @@
 # Local services for D2C Autopilot. Run: docker compose up -d
-# Inngest dev server is not containerised; start it with: npx inngest-cli@latest dev
+# Inngest dev server is not containerised; start it with: npm run inngest:dev
+# Object storage uses SeaweedFS with its S3 gateway (MinIO images are not
+# pullable from the registries this environment can reach).
 services:
   postgres:
     image: postgres:17
@@ -29,18 +31,15 @@ services:
       interval: 5s
       retries: 10
 
-  minio:
-    image: minio/minio:latest
-    command: server /data --console-address ":9001"
-    environment:
-      MINIO_ROOT_USER: d2c_minio
-      MINIO_ROOT_PASSWORD: d2c_minio_local_only
+  storage:
+    image: chrislusf/seaweedfs:latest
+    command: server -s3 -s3.port=9000 -s3.config=/etc/seaweedfs/s3.json -dir=/data
     ports:
       - "9000:9000"
-      - "9001:9001"
     volumes:
-      - minio_data:/data
+      - ./docker/seaweedfs/s3.json:/etc/seaweedfs/s3.json:ro
+      - storage_data:/data
 
 volumes:
   pg_data:
-  minio_data:
+  storage_data:
