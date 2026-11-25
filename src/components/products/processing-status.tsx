@@ -353,6 +353,9 @@ export function ProcessingStatus({ productId }: { productId: string }) {
             <Link href="/products">Back to products</Link>
           </Button>
         ) : null}
+        <Button variant="outline" asChild className="rounded-lg">
+          <Link href={`/products/${productId}/content`}>Open content</Link>
+        </Button>
         {/* Step 02 builds the PKR screen. Disabled until then (spec Q4). */}
         <Button
           disabled

@@ -24,12 +24,21 @@ export async function createUploadUrl(input: {
   );
 }
 
-export async function createDownloadUrl(key: string): Promise<string> {
+export async function createDownloadUrl(
+  key: string,
+  options?: { filename?: string },
+): Promise<string> {
+  // A download name is set on the signed response, so cross-origin links still save
+  // under a readable file name (the HTML download attribute is ignored across origins).
+  const disposition = options?.filename
+    ? `attachment; filename="${options.filename.replace(/[^A-Za-z0-9._-]/g, "_")}"`
+    : undefined;
   return getSignedUrl(
     getS3(),
     new GetObjectCommand({
       Bucket: getStorageConfig().STORAGE_BUCKET,
       Key: key,
+      ResponseContentDisposition: disposition,
     }),
     { expiresIn: SIGNED_URL_TTL_SECONDS },
   );

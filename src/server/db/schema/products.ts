@@ -1,5 +1,6 @@
 import {
   index,
+  integer,
   pgEnum,
   pgTable,
   text,
@@ -19,6 +20,8 @@ export const products = pgTable(
     brandId: uuid("brand_id").notNull(),
     name: text("name").notNull(),
     status: productStatusEnum("status").notNull().default("draft"),
+    // Per-product spend cap in minor units. Set only by an owner (CLAUDE.md §7.5).
+    spendCapMinor: integer("spend_cap_minor"),
     ingestedAt: timestamp("ingested_at", {
       withTimezone: true,
       mode: "string",

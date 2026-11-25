@@ -1,0 +1,1 @@
+Casual phone-camera photo of this product, exactly as shown in the reference photo, held in an open palm against a plain sunlit wall, slightly off-centre, natural colours. Keep the product's shape, colour, label and text unchanged and fully visible. The hand is the only person part visible; no face. No added text or logos.

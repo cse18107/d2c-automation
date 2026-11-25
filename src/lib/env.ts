@@ -57,3 +57,37 @@ export function getSessionEnv(
 ): SessionEnv {
   return parseEnv(sessionSchema, source);
 }
+
+// AI and video settings (ADR 0003, ADR 0004). Model IDs are never hard-coded in
+// app code. Text and image defaults are deliberately absent until the OpenRouter
+// models check is done (spec Q5); a missing value fails with a clear message.
+const aiSchema = z.object({
+  OPENROUTER_API_KEY: z.string().min(1).optional(),
+  // Defaults checked against OpenRouter models list on 2026-11-25 (ADR 0003).
+  AI_TEXT_MODEL_ID: z.string().min(1).default("anthropic/claude-haiku-5.5"),
+  AI_IMAGE_MODEL_ID: z.string().min(1).default("google/gemini-3.1-flash-image"),
+  AI_IMAGE_EDIT_MODEL_ID: z
+    .string()
+    .min(1)
+    .default("google/gemini-3.1-flash-image"),
+  AI_VIDEO_MODEL_ID: z.string().min(1).default("alibaba/wan-3.0"),
+  // Used when the run asks for sound (see duration-rules.ts for its price).
+  AI_VIDEO_SOUND_MODEL_ID: z
+    .string()
+    .min(1)
+    .default("google/gemini-omni-1.2-flash"),
+  AI_VIDEO_FALLBACK_MODEL_ID: z.string().min(1).default("google/veo-3.1-lite"),
+  AI_DEFAULT_SPEND_CAP_MINOR: z.coerce.number().int().positive().optional(),
+  FFMPEG_PATH: z.string().min(1).default("ffmpeg"),
+  // Font for burned-in captions. The default is the macOS Arial path.
+  FFMPEG_FONT_FILE: z
+    .string()
+    .min(1)
+    .default("/System/Library/Fonts/Supplemental/Arial.ttf"),
+});
+
+export type AiEnv = z.infer<typeof aiSchema>;
+
+export function getAiEnv(source: NodeJS.ProcessEnv = process.env): AiEnv {
+  return parseEnv(aiSchema, source);
+}

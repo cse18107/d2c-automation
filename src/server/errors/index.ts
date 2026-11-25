@@ -39,6 +39,12 @@ export class PermanentError extends AppError {
   }
 }
 
+export class RateLimitedError extends AppError {
+  constructor(message = "Rate limited, try again shortly") {
+    super("RATE_LIMITED", 429, message);
+  }
+}
+
 export class TransientError extends AppError {
   constructor(message: string) {
     super("TRANSIENT", 503, message);
