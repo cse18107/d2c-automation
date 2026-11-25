@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { ConflictError } from "@/server/errors";
 import { assertTransition, canTransition } from "./product-status";
 
-describe("Step 01 product status transitions", () => {
+describe("product status transitions (Steps 01 and 02)", () => {
   it("allows the legal ingest path", () => {
     expect(canTransition("draft", "processing")).toBe(true);
     expect(canTransition("processing", "draft")).toBe(true);
@@ -33,8 +33,12 @@ describe("Step 01 product status transitions", () => {
     expect(canTransition("failed", "approved")).toBe(false);
   });
 
-  it("rejects ready_for_review, which belongs to a later step", () => {
-    expect(canTransition("processing", "ready_for_review")).toBe(false);
+  it("allows content generation to finish into ready_for_review", () => {
+    expect(canTransition("processing", "ready_for_review")).toBe(true);
+    expect(canTransition("ready_for_review", "processing")).toBe(true);
+  });
+
+  it("does not allow ready_for_review straight from draft", () => {
     expect(canTransition("draft", "ready_for_review")).toBe(false);
   });
 

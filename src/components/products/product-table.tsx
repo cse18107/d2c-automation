@@ -57,6 +57,12 @@ export function ProductTable({ items }: { items: ProductListItem[] }) {
                   {item.imageCount} {item.imageCount === 1 ? "photo" : "photos"}
                   {item.documentName ? ` · ${item.documentName}` : ""}
                 </p>
+                <Link
+                  href={`/products/${item.id}/content`}
+                  className="text-xs font-medium text-primary underline"
+                >
+                  Open content
+                </Link>
               </td>
               <td className={`${CELL} text-muted-foreground`}>—</td>
               <td className={CELL}>
